@@ -45,3 +45,10 @@ def update_student_info(updated_info):
     db.userinfo.update({'phonenumber': updated_info['phonenumber']},
                        {'$set': {'status': updated_info['status']}},
                        True)
+
+def add_guardian(guardinfo):
+	db = client.backend
+	info={}
+	for k, v in guardinfo.items():
+		info[k] = v
+	return db.guardian.insert_one(info)
