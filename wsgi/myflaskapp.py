@@ -54,5 +54,25 @@ def admin_student_status_update():
     database_driver.update_student_info(update)
     return '', 200
 
+@app.route('/guardianLogin', methods=['POST'])
+def add_guardinfo():
+    if 'phonenumber' not in request.form:
+        return 'Missing phonenumber', 400
+    if 'name' not in request.form:
+        return 'Missing name', 400
+    if 'password' not in request.form:
+        return 'Missing password', 400
+    current_info = database_driver.get_userinfo(request.form['phonenumber'])
+    if current_info:
+    	data = request.form
+    	result = database_driver.add_guardinfo(data)
+    else:
+    	return 'Invalid phonenumber', 400
+    if not result:
+    	return 'Illegal request', 400
+    else:
+    	return 'Success', 201
+
+
 if __name__ == '__main__':
     app.run(debug=True)
